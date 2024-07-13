@@ -8,6 +8,11 @@ import { RootContext } from "@/context/RootContext";
 export default function Landing() {
   const { setModalUpload, modalUpload } = useContext(RootContext);
 
+  const handleClose = () => {
+    if (modalUpload) {
+      setModalUpload(false);
+    }
+  };
   return (
     <>
       <div className="music">
@@ -16,7 +21,8 @@ export default function Landing() {
         <div className="music__layout">
           {/*  */}
           {/* row */}
-          <div className="row content">
+          <ModalUpload />
+          <div className="row content" onClick={handleClose}>
             <div className="row__flex_row">
               <div className="row__flex_row_item row__flex_row_left"></div>
               <div className="row__flex_row_item row__flex_row_center"></div>
@@ -35,7 +41,6 @@ export default function Landing() {
                       >
                         <AddRoundedIcon />
                       </div>
-                      <ModalUpload />
                     </div>
                     <div className="music__body">
                       <div className="music__body_flex">
