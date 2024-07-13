@@ -46,6 +46,7 @@ export default function ModalUpload() {
   };
 
   const fileDrop = (e) => {
+    setModalUpload(false);
     e.preventDefault();
     setDragging(false);
     const files = e.dataTransfer.files;
@@ -74,21 +75,23 @@ export default function ModalUpload() {
                   <CloseRoundedIcon fontSize="small" />
                 </div>
               </div>
-              <div className="modal-upload__body">
-                <div
-                  className={`modal-upload__drag ${dragging ? "dragging" : ""}`}
-                  onDragOver={dragOver}
-                  onDragEnter={dragEnter}
-                  onDragLeave={dragLeave}
-                  onDrop={fileDrop}
-                >
-                  Drag & Drop files here
+              <div
+                className={`modal-upload__body ${dragging ? "dragging" : ""}`}
+                onDragOver={dragOver}
+                onDragEnter={dragEnter}
+                onDragLeave={dragLeave}
+                onDrop={fileDrop}
+              >
+                <div className={`modal-upload__drag ${dragging ? "dragging" : ""}`}>
+                  <span> Drag & Drop files here</span>
                 </div>
+                <span>OR</span>
                 <div className="input-file">
-                  <label htmlFor="" className="input-file__input-true">
-                    File
+                  <label htmlFor="input" className="input-file__input-true">
+                    Browse File
                   </label>
-                  <input type="file" className="input-file__input-hide" />
+
+                  <input type="file" id="input" className="input-file__input-hide" />
                 </div>
               </div>
             </div>
