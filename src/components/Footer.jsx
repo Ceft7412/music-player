@@ -1,9 +1,11 @@
 import React from "react";
 
-export function Footer() {
+export default function Footer() {
   return (
     <>
-      <div className="row__flex_row"></div>
+      <div className="footer">
+        <div className=""></div>
+      </div>
     </>
   );
 }
