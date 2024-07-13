@@ -46,7 +46,8 @@
               height: 100%;
               width: 100%;
               display: flex;
-              padding: 30px 10px 10px 10px;
+              flex-direction: column;
+
               .music__header {
                 height: 5%;
                 display: flex;
@@ -54,6 +55,7 @@
                 justify-content: space-between;
                 width: 100%;
                 gap: 10px;
+                padding: 40px 10px 10px 10px;
 
                 .music__playlist {
                   display: flex;
@@ -77,6 +79,54 @@
               }
               .music__body {
                 height: 90%;
+                margin-top: 10px;
+                width: 100%;
+                .music__body_flex {
+                  display: flex;
+                  flex-direction: column;
+                  height: 100%;
+                  .bodyhead {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    height: 40px;
+                    padding: 10px;
+                  }
+                  .bodycontent {
+                    margin-top: 10px;
+                    overflow-y: auto;
+                    height: 100%;
+                    .bodycontent__flex {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 20px;
+                      .bodycontent__flex_item {
+                        display: flex;
+                        justify-content: space-between;
+                        height: 100%;
+                        font-size: 14px;
+                        padding: 10px;
+                        &:hover {
+                          background-color: rgba(0, 0, 0, 0.1);
+                        }
+                        .music__item {
+                          display: flex;
+                          gap: 15px;
+                          .col__inside {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                            .info__inside {
+                              font-size: 0.75rem;
+                              margin-left: 14px;
+                              color: gray;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
