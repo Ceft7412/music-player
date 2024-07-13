@@ -3,53 +3,58 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import Footer from "@/components/footer";
 import ModalUpload from "@/components/ModalUpload";
+import { RootProvider } from "@/context/RootContext";
 export default function Home() {
   return (
     <>
-      <div className="music">
-        {/*  */}
-        {/* column */}
-        <div className="music__layout">
+      <RootProvider>
+        <div className="music">
           {/*  */}
-          {/* row */}
-          <div className="row content">
-            <div className="row__flex_row">
-              <div className="row__flex_row_item row__flex_row_left"></div>
-              <div className="row__flex_row_item row__flex_row_center"></div>
-              <div className="row__flex_row_item row__flex_row_right">
-                <div className="music">
-                  <div className="music__flex">
-                    <div className="music__header">
-                      <div className="music__header_item music__playlist">
-                        <span className="active">Default</span>
-                        <span>Default</span>
-                        <span>Default</span>
-                      </div>
-                      <div className="music__header_item ">
-                        <AddRoundedIcon />
-                      </div>
-                      <ModalUpload />
-                    </div>
-                    <div className="music__body">
-                      <div className="music__body_flex">
-                        <div className="bodyhead">
-                          <input type="checkbox" />
-                          <div className="bodyhead__icon">
-                            <KeyboardArrowDownRoundedIcon />
-                          </div>
+          {/* column */}
+          <div className="music__layout">
+            {/*  */}
+            {/* row */}
+            <div className="row content">
+              <div className="row__flex_row">
+                <div className="row__flex_row_item row__flex_row_left"></div>
+                <div className="row__flex_row_item row__flex_row_center"></div>
+                <div className="row__flex_row_item row__flex_row_right">
+                  <div className="music">
+                    <div className="music__flex">
+                      <div className="music__header">
+                        <div className="music__header_item music__playlist">
+                          <span className="active">Default</span>
+                          <span>Default</span>
+                          <span>Default</span>
                         </div>
-                        <div className="bodycontent">
-                          <div className="bodycontent__flex">
-                            <div className="bodycontent__flex_item">
-                              <div className="music__item">
-                                <input type="checkbox" />
-                                <div className="col__inside">
-                                  <span>1. Harris Heller - Guilty Spark </span>
-                                  <span class="info__inside">MP3, 192 kbps, 2.37 MB</span>
+                        <div className="music__header_item ">
+                          <AddRoundedIcon />
+                        </div>
+                        <ModalUpload />
+                      </div>
+                      <div className="music__body">
+                        <div className="music__body_flex">
+                          <div className="bodyhead">
+                            <input type="checkbox" />
+                            <div className="bodyhead__icon">
+                              <KeyboardArrowDownRoundedIcon />
+                            </div>
+                          </div>
+                          <div className="bodycontent">
+                            <div className="bodycontent__flex">
+                              <div className="bodycontent__flex_item">
+                                <div className="music__item">
+                                  <input type="checkbox" />
+                                  <div className="col__inside">
+                                    <span>1. Harris Heller - Guilty Spark </span>
+                                    <span class="info__inside">
+                                      MP3, 192 kbps, 2.37 MB
+                                    </span>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="">
-                                <span>1:44</span>
+                                <div className="">
+                                  <span>1:44</span>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -61,9 +66,9 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </RootProvider>
     </>
   );
 }
