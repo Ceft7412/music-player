@@ -1,5 +1,6 @@
 import React from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import Footer from "@/components/footer";
 export default function Home() {
   return (
@@ -27,7 +28,32 @@ export default function Home() {
                         <AddRoundedIcon />
                       </div>
                     </div>
-                    <div className="music__body"></div>
+                    <div className="music__body">
+                      <div className="music__body_flex">
+                        <div className="bodyhead">
+                          <input type="checkbox" />
+                          <div className="bodyhead__icon">
+                            <KeyboardArrowDownRoundedIcon />
+                          </div>
+                        </div>
+                        <div className="bodycontent">
+                          <div className="bodycontent__flex">
+                            <div className="bodycontent__flex_item">
+                              <div className="music__item">
+                                <input type="checkbox" />
+                                <div className="col__inside">
+                                  <span>1. Harris Heller - Guilty Spark </span>
+                                  <span class="info__inside">MP3, 192 kbps, 2.37 MB</span>
+                                </div>
+                              </div>
+                              <div className="">
+                                <span>1:44</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
