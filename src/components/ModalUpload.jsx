@@ -5,7 +5,7 @@ import React from "react";
 
 export default function ModalUpload() {
   const { modalUpload, setModalUpload } = React.useContext(RootContext);
-    
+
   const modalVariant = {
     hidden: {
       opacity: 0,
@@ -23,19 +23,21 @@ export default function ModalUpload() {
   };
   return (
     <>
-      <div className="modal-upload">
-        <div className="modal-upload__flex">
-          <div className="modal-upload__header">
-            <span>Upload</span>
-            <div className="modal-upload__close-icon">
-              <CloseRoundedIcon fontSize="small" />
+      {modalUpload && (
+        <div className="modal-upload">
+          <div className="modal-upload__flex">
+            <div className="modal-upload__header">
+              <span>Upload</span>
+              <div className="modal-upload__close-icon">
+                <CloseRoundedIcon fontSize="small" />
+              </div>
+            </div>
+            <div className="modal-upload__body">
+              <div className="modal-upload__drag"></div>
             </div>
           </div>
-          <div className="modal-upload__body">
-            <div className="modal-upload__drag"></div>
-          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
