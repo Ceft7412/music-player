@@ -1,11 +1,12 @@
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { RootContext } from "@/context/RootContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 export default function ModalUpload() {
   const { modalUpload, setModalUpload } = useContext(RootContext);
-  console.log(modalUpload);
+  const [dragging, setDragging] = useState(false);
+
   const modalVariant = {
     hidden: {
       opacity: 0,
@@ -28,6 +29,30 @@ export default function ModalUpload() {
       },
     },
   };
+
+  const dragOver = (e) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+
+  const dragEnter = (e) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+
+  const dragLeave = (e) => {
+    e.preventDefault();
+    setDragging(false);
+  };
+
+  const fileDrop = (e) => {
+    e.preventDefault();
+    setDragging(false);
+    const files = e.dataTransfer.files;
+    console.log(files);
+    // Handle the files here (upload, read, etc.)
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -50,7 +75,21 @@ export default function ModalUpload() {
                 </div>
               </div>
               <div className="modal-upload__body">
-                <div className="modal-upload__drag"></div>
+                <div
+                  className={`modal-upload__drag ${dragging ? "dragging" : ""}`}
+                  onDragOver={dragOver}
+                  onDragEnter={dragEnter}
+                  onDragLeave={dragLeave}
+                  onDrop={fileDrop}
+                >
+                  Drag & Drop files here
+                </div>
+                <div className="input-file">
+                  <label htmlFor="" className="input-file__input-true">
+                    File
+                  </label>
+                  <input type="file" className="input-file__input-hide" />
+                </div>
               </div>
             </div>
           </motion.div>
