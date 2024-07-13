@@ -33,6 +33,29 @@
       align-items: center;
       justify-content: center;
       height: 100%;
+      padding-bottom: 30px;
+      border: 2px dashed orange;
+      &.dragging {
+        background-color: rgba(255, 166, 0, 0.301);
+      }
+      .modal-upload__drag {
+      }
+      span {
+        margin: 20px 0;
+      }
+      .input-file {
+        .input-file__input-true {
+          border-radius: 10px;
+          padding: 7px 10px;
+          background-color: orange;
+          color: white;
+          text-align: center;
+          cursor: pointer;
+        }
+        .input-file__input-hide {
+          display: none;
+        }
+      }
     }
   }
 }
