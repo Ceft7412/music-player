@@ -2,6 +2,7 @@ import React from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import Footer from "@/components/footer";
+import ModalUpload from "@/components/ModalUpload";
 export default function Home() {
   return (
     <>
@@ -27,6 +28,7 @@ export default function Home() {
                       <div className="music__header_item ">
                         <AddRoundedIcon />
                       </div>
+                      <ModalUpload />
                     </div>
                     <div className="music__body">
                       <div className="music__body_flex">
