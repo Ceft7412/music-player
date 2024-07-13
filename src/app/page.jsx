@@ -9,14 +9,16 @@ export default function Home() {
         <div className="music__layout">
           {/*  */}
           {/* row */}
-          <div className="music__row-item">
-            <div className=""></div>
-            <div className=""></div>
-            <div className=""></div>
+          <div className="row">
+            <div className="row__flex_row">
+              <div className=""></div>
+              <div className=""></div>
+              <div className=""></div>
+            </div>
           </div>
           {/*  */}
           {/* row */}
-          <div className="music__row-item footer">
+          <div className="row footer">
             <Footer />
           </div>
         </div>
