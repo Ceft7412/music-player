@@ -1,11 +1,11 @@
-import React from "react";
-export const RootContext = React.createContext();
+import { useState, createContext } from "react";
+export const RootContext = createContext();
 
 export function RootProvider({ children }) {
-  const [modalUpload, setModalUpload] = React.useState(false);
+  const [modalUpload, setModalUpload] = useState(false);
 
   return (
-    <RootContext.Provider value={(modalUpload, setModalUpload)}>
+    <RootContext.Provider value={{ modalUpload, setModalUpload }}>
       {children}
     </RootContext.Provider>
   );
