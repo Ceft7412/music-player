@@ -7,18 +7,80 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    padding-bottom: 100px;
     z-index: 999;
     .row {
+      height: 100%;
+      width: 100%;
       .row__flex_row {
         display: flex;
         align-items: center;
-        padding: 20px;
         height: 100%;
-        z-index: 999;
-      }
-      &.content {
+
         width: 100%;
-        height: 100%;
+        gap: 10px;
+        z-index: 999;
+        .row__flex_row_item {
+          height: 100%;
+        }
+        .row__flex_row_left {
+          background-color: rgb(232, 232, 232);
+          width: 30%;
+        }
+
+        .row__flex_row_center {
+          background-color: green;
+          width: 45%;
+        }
+
+        .row__flex_row_right {
+          width: 25%;
+          display: flex;
+          flex-direction: column;
+          border-top-left-radius: 20px;
+          border-bottom-left-radius: 20px;
+          box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
+          .music {
+            height: 100%;
+            .music__flex {
+              height: 100%;
+              width: 100%;
+              display: flex;
+              padding: 30px 10px 10px 10px;
+              .music__header {
+                height: 5%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                gap: 10px;
+
+                .music__playlist {
+                  display: flex;
+                  align-items: center;
+                  gap: 15px;
+
+                  cursor: pointer;
+                  .active {
+                    border-bottom: 3.5px solid orange;
+                    cursor: default;
+                  }
+                  span {
+                    font-size: 0.875rem;
+                    &:hover {
+                      color: orange;
+                    }
+                  }
+                }
+                .music-header-item {
+                }
+              }
+              .music__body {
+                height: 90%;
+              }
+            }
+          }
+        }
       }
     }
   }
