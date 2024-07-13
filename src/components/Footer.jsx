@@ -3,7 +3,7 @@ import React from "react";
 export function Footer() {
   return (
     <>
-      <div className=""></div>
+      <div className="row__flex_row"></div>
     </>
   );
 }
