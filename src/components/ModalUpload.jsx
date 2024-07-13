@@ -1,11 +1,26 @@
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { RootContext } from "@/context/RootContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { useContext, useState } from "react";
-
+import { useContext, useState, useEffect } from "react";
+import { openDatabase, storeFiles, fetchStoredFiles } from "@/utils/indexdb";
 export default function ModalUpload() {
   const { modalUpload, setModalUpload } = useContext(RootContext);
   const [dragging, setDragging] = useState(false);
+  const [storedFiles, setStoredFiles] = useState([]);
+
+  // run this function when the component mounts
+  useEffect(() => {
+    async function loadStoredFiles() {
+      try {
+        const files = await fetchStoredFiles();
+        setStoredFiles(files);
+      } catch (error) {
+        console.error("Error fetching stored files:", error);
+      }
+    }
+
+    loadStoredFiles();
+  }, []);
 
   const modalVariant = {
     hidden: {
@@ -45,19 +60,32 @@ export default function ModalUpload() {
     setDragging(false);
   };
 
-  const fileDrop = (e) => {
+  const fileDrop = async (e) => {
     setModalUpload(false);
     e.preventDefault();
     setDragging(false);
     const files = e.dataTransfer.files;
     console.log(files);
-    // Handle the files here (upload, read, etc.)
+    try {
+      await storeFiles(files);
+      const updatedFiles = await fetchStoredFiles();
+      setStoredFiles(updatedFiles);
+    } catch (error) {
+      console.error("Error storing files:", error);
+    }
   };
-  const handleFileUpload = (e) => {
+
+  const handleFileUpload = async (e) => {
     setModalUpload(false);
     const files = e.target.files;
     console.log(files);
-    // Handle the files here (upload, read, etc.)
+    try {
+      await storeFiles(files);
+      const updatedFiles = await fetchStoredFiles();
+      setStoredFiles(updatedFiles);
+    } catch (error) {
+      console.error("Error storing files:", error);
+    }
   };
 
   return (
@@ -106,6 +134,16 @@ export default function ModalUpload() {
                   />
                 </div>
               </div>
+              {storedFiles.length > 0 && (
+                <div className="stored-files">
+                  <h3>Stored Files:</h3>
+                  <ul>
+                    {storedFiles.map((file, index) => (
+                      <li key={index}>{file.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </motion.div>
         )}
