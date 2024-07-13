@@ -53,6 +53,12 @@ export default function ModalUpload() {
     console.log(files);
     // Handle the files here (upload, read, etc.)
   };
+  const handleFileUpload = (e) => {
+    setModalUpload(false);
+    const files = e.target.files;
+    console.log(files);
+    // Handle the files here (upload, read, etc.)
+  };
 
   return (
     <>
@@ -91,7 +97,13 @@ export default function ModalUpload() {
                     Browse File
                   </label>
 
-                  <input type="file" id="input" className="input-file__input-hide" />
+                  <input
+                    type="file"
+                    id="input"
+                    className="input-file__input-hide"
+                    accept=".mp3, .wav, .flac"
+                    onChange={handleFileUpload}
+                  />
                 </div>
               </div>
             </div>
