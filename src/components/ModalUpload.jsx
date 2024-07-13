@@ -1,7 +1,11 @@
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { RootContext } from "@/context/RootContext";
 import { motion } from "framer-motion";
+import React from "react";
 
 export default function ModalUpload() {
+  const { modalUpload, setModalUpload } = React.useContext(RootContext);
+    
   const modalVariant = {
     hidden: {
       opacity: 0,
