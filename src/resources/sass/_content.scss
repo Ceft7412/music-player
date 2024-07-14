@@ -1,7 +1,9 @@
 .music {
   width: 100%;
   height: 100vh;
-
+  background: rgb(15, 18, 20);
+  color: white;
+  font-weight: 600;
   .music__layout {
     display: flex;
     flex-direction: column;
@@ -24,24 +26,57 @@
           height: 100%;
         }
         .row__flex_row_left {
-          background-color: rgb(232, 232, 232);
-          width: 30%;
+          width: 25%;
+          margin-left: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          border-radius: 15px;
+          color: black;
+          .row__flex_row_left-flex {
+            height: 97%;
+            width: 100%;
+            align-self: center;
+            padding-bottom: 20px;
+            // background-color: rgba(0, 0, 0, 0.831);
+            border-radius: 15px;
+          }
         }
 
         .row__flex_row_center {
-          background-color: green;
-          width: 45%;
+          width: 55%;
+
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          border-radius: 15px;
+          color: white;
+          .row__flex_row_center-flex {
+            height: 97%;
+            width: 100%;
+            align-self: center;
+            padding-bottom: 20px;
+            // background-color: rgba(0, 0, 0, 0.831);
+
+            border-radius: 10px;
+          }
         }
 
         .row__flex_row_right {
-          width: 30%;
+          width: 25%;
+          margin-right: 10px;
+
           display: flex;
           flex-direction: column;
-          border-top-left-radius: 20px;
-          border-bottom-left-radius: 20px;
-          box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
-          .music {
-            height: 100%;
+          justify-content: center;
+
+          .music-what {
+            height: 97%;
+            width: 100%;
+            align-self: center;
+            padding-bottom: 20px;
+            // background-color: rgba(0, 0, 0, 0.831);
+            border-radius: 7px;
             .music__flex {
               height: 100%;
               width: 100%;
@@ -49,32 +84,52 @@
               flex-direction: column;
 
               .music__header {
-                height: 5%;
+                height: 7%;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 width: 100%;
                 gap: 10px;
-                padding: 40px 10px 10px 10px;
+                padding: 40px 0 10px 0;
 
-                .music__playlist {
+                .music__header_item {
                   display: flex;
                   align-items: center;
-                  gap: 15px;
+                  &.music__playlist {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
 
-                  cursor: pointer;
-                  .active {
-                    border-bottom: 3.5px solid orange;
-                    cursor: default;
-                  }
-                  span {
-                    font-size: 0.875rem;
-                    &:hover {
+                    cursor: pointer;
+
+                    .active {
                       color: orange;
+                      cursor: default;
+                      &:hover {
+                        color: white;
+                      }
+                    }
+                    span {
+                      padding: 7px 15px;
+                      border-radius: 7px;
+                      font-size: 0.875rem;
+                      background-color: rgb(27, 27, 34);
+                      border: 1px solid rgba(51, 51, 51, 0.379);
+                      &:hover {
+                        background-color: rgba(42, 38, 38, 0.995);
+                        color: orange;
+                      }
                     }
                   }
-                }
-                .music-header-item {
+                  &.music__upload {
+                    background-color: rgb(27, 27, 34);
+                    border: 1px solid rgba(51, 51, 51, 0.379);
+                    border-radius: 7px;
+                    padding: 5px;
+                    &:hover {
+                      background-color: rgba(42, 38, 38, 0.995);
+                    }
+                  }
                 }
               }
               .music__body {
@@ -91,7 +146,7 @@
                     justify-content: space-between;
                     width: 100%;
                     height: 40px;
-                    padding: 10px;
+                    padding: 10px 15px;
                   }
                   .bodycontent {
                     cursor: default;
@@ -101,15 +156,18 @@
                     .bodycontent__flex {
                       display: flex;
                       flex-direction: column;
-                      gap: 20px;
+                      gap: 5px;
                       .bodycontent__flex_item {
+                        border-radius: 10px;
+                        background-color: rgb(27, 27, 34);
+                        border: 1px solid rgba(51, 51, 51, 0.379);
                         display: flex;
                         justify-content: space-between;
                         height: 100%;
                         font-size: 14px;
-                        padding: 10px;
+                        padding: 15px;
                         &:hover {
-                          background-color: rgba(0, 0, 0, 0.1);
+                          background-color: rgba(42, 38, 38, 0.995);
                         }
                         .music__item {
                           display: flex;
