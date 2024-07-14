@@ -7,10 +7,14 @@ import { RootContext } from "@/context/RootContext";
 import Music from "@/components/Music";
 
 export default function Landing() {
-  const { setModalUpload, modalUpload } = useContext(RootContext);
+  const { setModalUpload, modalUpload, backgroundClickedItem, setBackgroundClickedItem } =
+    useContext(RootContext);
   const handleClose = () => {
     if (modalUpload) {
       setModalUpload(false);
+    }
+    if (backgroundClickedItem) {
+      setBackgroundClickedItem("");
     }
   };
   return (
