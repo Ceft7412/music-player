@@ -6,8 +6,8 @@ import ModalUpload from "@/components/ModalUpload";
 import { RootContext } from "@/context/RootContext";
 
 export default function Landing() {
-  const { setModalUpload, modalUpload } = useContext(RootContext);
-
+  const { setModalUpload, modalUpload, storedFiles } = useContext(RootContext);
+  console.log("storedFiles:", storedFiles);
   const handleClose = () => {
     if (modalUpload) {
       setModalUpload(false);
@@ -51,22 +51,30 @@ export default function Landing() {
                           </div>
                         </div>
                         <div className="bodycontent">
-                          <div className="bodycontent__flex">
-                            <div className="bodycontent__flex_item">
-                              <div className="music__item">
-                                <input type="checkbox" />
-                                <div className="col__inside">
-                                  <span>1. Harris Heller - Guilty Spark </span>
-                                  <span className="info__inside">
-                                    MP3, 192 kbps, 2.37 MB
+                          {storedFiles.map((file, index) => (
+                            <div className="bodycontent__flex" key={index}>
+                              <div className="bodycontent__flex_item">
+                                <div className="music__item">
+                                  <input type="checkbox" />
+                                  <div className="col__inside">
+                                    <span>
+                                      {index + 1}. {file.artist} - {file.name}
+                                    </span>
+                                    <span className="info__inside">
+                                      {file.type}, {file.kbps} kbps, {file.size}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="">
+                                  <span>
+                                    {file.duration.minutes}:
+                                    {file.duration.seconds < 10 ? "0" : ""}
+                                    {file.duration.seconds}
                                   </span>
                                 </div>
                               </div>
-                              <div className="">
-                                <span>1:44</span>
-                              </div>
                             </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     </div>
