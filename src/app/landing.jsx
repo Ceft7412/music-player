@@ -51,9 +51,9 @@ export default function Landing() {
                           </div>
                         </div>
                         <div className="bodycontent">
-                          {storedFiles.map((file, index) => (
-                            <div className="bodycontent__flex" key={index}>
-                              <div className="bodycontent__flex_item">
+                          <div className="bodycontent__flex">
+                            {storedFiles.map((file, index) => (
+                              <div className="bodycontent__flex_item" key={index}>
                                 <div className="music__item">
                                   <input type="checkbox" />
                                   <div className="col__inside">
@@ -73,8 +73,8 @@ export default function Landing() {
                                   </span>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
