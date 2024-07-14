@@ -13,6 +13,10 @@ export default function Music() {
   } = useContext(RootContext);
 
   const [activeBackground, setActiveBackground] = useState("");
+
+  const handleActiveBackground = () => {
+    setBackgroundClickedItem("rgba(42, 38, 38, 0.995)");
+  };
   const handleClose = () => {
     if (modalUpload) {
       setModalUpload(false);
@@ -49,11 +53,15 @@ export default function Music() {
                     <div
                       className="bodycontent__flex_item"
                       key={index}
-                      style={{ backgroundColor: backgroundClickedItem }}
+                      style={{
+                        backgroundColor: backgroundClickedItem,
+                      }}
                       onClick={() => setBackgroundClickedItem("rgba(42, 38, 38, 0.995)")}
-                      onDoubleClick={() => {
-                        // Set something here
-                        console.log(`Double clicked on item ${index}`);
+                      onDoubleClick={handleActiveBackground}
+                      onContextMenu={(e) => {
+                        e.preventDefault(); // Prevent the context menu from appearing
+                        // Handle right click here
+                        console.log(`Right clicked on item ${index}`);
                       }}
                     >
                       <div className="music__item">
