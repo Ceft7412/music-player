@@ -1,27 +1,54 @@
 import { RootContext } from "@/context/RootContext";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-
-import { useContext, useState } from "react";
+import { setActiveItem, fetchActiveItem, fetchStoredFiles } from "@/utils/indexdb";
+import { useContext, useState, useEffect } from "react";
 export default function Music() {
   const {
     setModalUpload,
     modalUpload,
     storedFiles,
+    setStoredFiles,
     backgroundClickedItem,
     setBackgroundClickedItem,
+    itemToPlay,
+    setItemToPlay,
   } = useContext(RootContext);
+  console.log("itemToPlay", itemToPlay);
+
+  useEffect(() => {
+    async function loadStoredFiles() {
+      try {
+        const files = await fetchStoredFiles();
+        const active = await fetchActiveItem();
+
+        setStoredFiles(files);
+        setItemToPlay(active);
+      } catch (error) {
+        console.error("Error fetching stored files:", error);
+      }
+    }
+
+    loadStoredFiles();
+  }, []);
 
   const [activeBackground, setActiveBackground] = useState("");
 
-  const handleActiveBackground = () => {
-    setBackgroundClickedItem("rgba(42, 38, 38, 0.995)");
+  const handleActiveBackground = async (item) => {
+    try {
+      await setActiveItem(item);
+      const active = await fetchActiveItem();
+      setItemToPlay(active);
+    } catch (e) {
+      console.error("Error setting active item:", error);
+    }
   };
   const handleClose = () => {
     if (modalUpload) {
       setModalUpload(false);
     }
   };
+
   return (
     <div className="row__flex_row_item row__flex_row_right">
       <div className="music-what">
@@ -57,7 +84,7 @@ export default function Music() {
                         backgroundColor: backgroundClickedItem,
                       }}
                       onClick={() => setBackgroundClickedItem("rgba(42, 38, 38, 0.995)")}
-                      onDoubleClick={handleActiveBackground}
+                      onDoubleClick={() => handleActiveBackground(file)}
                       onContextMenu={(e) => {
                         e.preventDefault(); // Prevent the context menu from appearing
                         // Handle right click here
