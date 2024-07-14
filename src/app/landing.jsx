@@ -7,8 +7,15 @@ import { RootContext } from "@/context/RootContext";
 import Music from "@/components/Music";
 
 export default function Landing() {
-  const { setModalUpload, modalUpload, backgroundClickedItem, setBackgroundClickedItem } =
-    useContext(RootContext);
+  const {
+    itemToPlay,
+    setItemToPlay,
+    setModalUpload,
+    modalUpload,
+    backgroundClickedItem,
+    setBackgroundClickedItem,
+  } = useContext(RootContext);
+
   const handleClose = () => {
     if (modalUpload) {
       setModalUpload(false);
@@ -29,9 +36,18 @@ export default function Landing() {
           <div className="row content" onClick={handleClose}>
             <div className="row__flex_row">
               <div className="row__flex_row_item row__flex_row_left">
+                {/*  */}
                 <div className="row__flex_row_left-flex">
                   <div className="row__flex_row_left-header">
                     <AlbumRoundedIcon style={{ fontSize: 150 }} />
+                  </div>
+                  <div className="row__flex_row_left-body">
+                    <span className="title-left">
+                      {itemToPlay ? itemToPlay.name : ""}
+                    </span>
+                    <span className="artist-left">
+                      {itemToPlay ? itemToPlay.artist : ""}
+                    </span>
                   </div>
                 </div>
               </div>
