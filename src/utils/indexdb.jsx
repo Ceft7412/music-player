@@ -93,5 +93,25 @@ export async function fetchStoredFiles() {
 }
 
 export async function setActiveItem(item) {
-  localStorage.setItem('activeItem', item.id);
-} 
+  localStorage.setItem("activeItem", item.id);
+}
+
+export async function fetchActiveItem() {
+  const activeItemId = localStorage.getItem("activeItem");
+  if (!activeItemId) return null;
+
+  const db = await openDatabase();
+  const transaction = db.transaction(["files"], "readonly");
+  const objectStore = transaction.objectStore("files");
+  const request = objectStore.get(Number(activeItemId));
+
+  return new Promise((resolve, reject) => {
+    request.onsuccess = function (event) {
+      resolve(event.target.result);
+    };
+
+    request.onerror = function (event) {
+      reject(event.target.error);
+    };
+  });
+}
