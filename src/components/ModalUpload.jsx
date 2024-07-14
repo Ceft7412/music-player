@@ -4,18 +4,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useState, useEffect } from "react";
 import { openDatabase, storeFiles, fetchStoredFiles } from "@/utils/indexdb";
 export default function ModalUpload() {
-  const { modalUpload, setModalUpload } = useContext(RootContext);
+  const { modalUpload, setModalUpload, storedFiles, setStoredFiles } =
+    useContext(RootContext);
   const [dragging, setDragging] = useState(false);
-  const [storedFiles, setStoredFiles] = useState([]);
 
   // run this function when the component mounts
   useEffect(() => {
     async function loadStoredFiles() {
       try {
         const files = await fetchStoredFiles();
+
         setStoredFiles(files);
       } catch (error) {
-        console.error("Error fetching stored files:", error);
+        console.error("Error fetching stored   files:", error);
       }
     }
 
@@ -81,6 +82,7 @@ export default function ModalUpload() {
     console.log(files);
     try {
       await storeFiles(files);
+
       const updatedFiles = await fetchStoredFiles();
       setStoredFiles(updatedFiles);
     } catch (error) {
@@ -128,6 +130,7 @@ export default function ModalUpload() {
                   <input
                     type="file"
                     id="input"
+                    multiple
                     className="input-file__input-hide"
                     accept=".mp3, .wav, .flac"
                     onChange={handleFileUpload}
@@ -139,7 +142,7 @@ export default function ModalUpload() {
                   <h3>Stored Files:</h3>
                   <ul>
                     {storedFiles.map((file, index) => (
-                      <li key={index}>{file.name}</li>
+                      <li key={index}>{file}</li>
                     ))}
                   </ul>
                 </div>
