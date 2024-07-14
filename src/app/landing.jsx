@@ -2,6 +2,7 @@ import { useContext } from "react";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import Footer from "@/components/footer";
+import AlbumRoundedIcon from "@mui/icons-material/AlbumRounded";
 import ModalUpload from "@/components/ModalUpload";
 import { RootContext } from "@/context/RootContext";
 
@@ -27,7 +28,7 @@ export default function Landing() {
               <div className="row__flex_row_item row__flex_row_left">
                 <div className="row__flex_row_left-flex">
                   <div className="row__flex_row_left-header">
-                    
+                    <AlbumRoundedIcon style={{ fontSize: 150 }} />
                   </div>
                 </div>
               </div>
