@@ -137,16 +137,6 @@ export default function ModalUpload() {
                   />
                 </div>
               </div>
-              {storedFiles.length > 0 && (
-                <div className="stored-files">
-                  <h3>Stored Files:</h3>
-                  <ul>
-                    {storedFiles.map((file, index) => (
-                      <li key={index}>{file}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           </motion.div>
         )}
