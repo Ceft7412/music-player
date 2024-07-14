@@ -91,3 +91,7 @@ export async function fetchStoredFiles() {
     };
   });
 }
+
+export async function setActiveItem(item) {
+  localStorage.setItem('activeItem', item.id);
+} 
