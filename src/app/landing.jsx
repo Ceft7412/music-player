@@ -1,9 +1,9 @@
 import { useContext } from "react";
 
-import Footer from "@/components/footer";
+import Footer from "@/components/Footer";
 import AlbumRoundedIcon from "@mui/icons-material/AlbumRounded";
 import ModalUpload from "@/components/ModalUpload";
-  import { RootContext } from "@/context/RootContext";
+import { RootContext } from "@/context/RootContext";
 import Music from "@/components/Music";
 
 export default function Landing() {
