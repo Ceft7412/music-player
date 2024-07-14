@@ -2,10 +2,17 @@ import { RootContext } from "@/context/RootContext";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 export default function Music() {
-  const { setModalUpload, modalUpload, storedFiles } = useContext(RootContext);
-  console.log("storedFiles:", storedFiles);
+  const {
+    setModalUpload,
+    modalUpload,
+    storedFiles,
+    backgroundClickedItem,
+    setBackgroundClickedItem,
+  } = useContext(RootContext);
+
+  const [activeBackground, setActiveBackground] = useState("");
   const handleClose = () => {
     if (modalUpload) {
       setModalUpload(false);
@@ -39,7 +46,16 @@ export default function Music() {
               <div className="bodycontent">
                 <div className="bodycontent__flex">
                   {storedFiles.map((file, index) => (
-                    <div className="bodycontent__flex_item" key={index}>
+                    <div
+                      className="bodycontent__flex_item"
+                      key={index}
+                      style={{ backgroundColor: backgroundClickedItem }}
+                      onClick={() => setBackgroundClickedItem("rgba(42, 38, 38, 0.995)")}
+                      onDoubleClick={() => {
+                        // Set something here
+                        console.log(`Double clicked on item ${index}`);
+                      }}
+                    >
                       <div className="music__item">
                         <input type="checkbox" />
                         <div className="col__inside">
