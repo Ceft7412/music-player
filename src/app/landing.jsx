@@ -24,10 +24,18 @@ export default function Landing() {
           <ModalUpload />
           <div className="row content" onClick={handleClose}>
             <div className="row__flex_row">
-              <div className="row__flex_row_item row__flex_row_left"></div>
-              <div className="row__flex_row_item row__flex_row_center"></div>
+              <div className="row__flex_row_item row__flex_row_left">
+                <div className="row__flex_row_left-flex">
+                  <div className="row__flex_row_left-header">
+                    
+                  </div>
+                </div>
+              </div>
+              <div className="row__flex_row_item row__flex_row_center">
+                <div className="row__flex_row_center-flex"></div>
+              </div>
               <div className="row__flex_row_item row__flex_row_right">
-                <div className="music">
+                <div className="music-what">
                   <div className="music__flex">
                     <div className="music__header">
                       <div className="music__header_item music__playlist">
@@ -36,7 +44,7 @@ export default function Landing() {
                         <span>Default</span>
                       </div>
                       <div
-                        className="music__header_item "
+                        className="music__header_item music__upload"
                         onClick={() => setModalUpload(true)}
                       >
                         <AddRoundedIcon />
@@ -61,7 +69,8 @@ export default function Landing() {
                                       {index + 1}. {file.artist} - {file.name}
                                     </span>
                                     <span className="info__inside">
-                                      {file.type}, {file.kbps} kbps, {file.size}
+                                      {file.type}, {file.kHz} kHz, {file.kbps} kbps,{" "}
+                                      {file.size}
                                     </span>
                                   </div>
                                 </div>
