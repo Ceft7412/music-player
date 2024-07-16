@@ -24,8 +24,11 @@ export default function Music() {
     setPlaylists,
     itemToPlay,
     setItemToPlay,
+    playlistIndex,
+    setPlaylistIndex,
     modalPlaylist,
     setModalPlaylist,
+    setEditModalPlaylist,
   } = useContext(RootContext);
 
   const [playlistPosition, setPlaylistsPosition] = useState({ x: 0, y: 0 });
@@ -79,7 +82,7 @@ export default function Music() {
   const handleRightClick = (index, event) => {
     event.preventDefault();
     setPlaylistsPosition({ x: event.clientX, y: event.clientY });
-    setClickedPlaylistIndex(index);
+    setPlaylistIndex(index);
     setModalPlaylist(true);
   };
 
@@ -172,7 +175,7 @@ export default function Music() {
         <ModalPlaylist
           x={playlistPosition.x}
           y={playlistPosition.y}
-          playlist={playlists[clickedPlaylistIndex]} // Pass relevant playlist data
+          // Pass relevant playlist data
         />
       )}
     </div>
