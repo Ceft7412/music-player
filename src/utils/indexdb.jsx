@@ -1,8 +1,8 @@
 import { parseBuffer } from "music-metadata";
 
-export function openDatabase() {
+export function openDatabase(version = 2) {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("fileStorage", 1);
+    const request = indexedDB.open("fileStorage", 2 );
 
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
@@ -56,7 +56,7 @@ export async function storeFiles(files) {
 
   console.log("files:", processedFiles);
   console.log("files:", processedFiles.length);
-  const db = await openDatabase();
+  const db = await openDatabase(2);
   const transaction = db.transaction(["files"], "readwrite");
   const objectStore = transaction.objectStore("files");
 
@@ -76,7 +76,7 @@ export async function storeFiles(files) {
 }
 
 export async function fetchStoredFiles() {
-  const db = await openDatabase();
+  const db = await openDatabase(2);
   const transaction = db.transaction(["files"], "readonly");
   const objectStore = transaction.objectStore("files");
   const request = objectStore.getAll();
@@ -100,7 +100,7 @@ export async function fetchActiveItem() {
   const activeItemId = localStorage.getItem("activeItem");
   if (!activeItemId) return null;
 
-  const db = await openDatabase();
+  const db = await openDatabase(2);
   const transaction = db.transaction(["files"], "readonly");
   const objectStore = transaction.objectStore("files");
   const request = objectStore.get(Number(activeItemId));
@@ -113,5 +113,81 @@ export async function fetchActiveItem() {
     request.onerror = function (event) {
       reject(event.target.error);
     };
+  });
+}
+
+export async function fetchPlaylists() {
+  const db = await openDatabase(2);
+  const transaction = db.transaction(["playlists"], "readonly");
+  const objectStore = transaction.objectStore("playlists");
+  const request = objectStore.getAll();
+
+  return new Promise((resolve, reject) => {
+    request.onsuccess = function (event) {
+      resolve(event.target.result);
+    };
+
+    request.onerror = function (event) {
+      reject(event.target.error);
+    };
+  });
+}
+
+export async function createPlaylists(playlistName) {
+  return new Promise(async (resolve, reject) => {
+    const db = await openDatabase(2);
+    if (!db.objectStoreNames.contains("playlists")) {
+      const version = db.version + 1;
+      db.close();
+      const request = indexedDB.open("fileStorage", version);
+
+      request.onupgradeneeded = function (event) {
+        const db = event.target.result;
+        db.createObjectStore("playlists", { keyPath: "id", autoIncrement: true });
+      };
+
+      request.onsuccess = function (event) {
+        const db = event.target.result;
+        const transaction = db.transaction(["playlists"], "readwrite");
+        const playlistsStore = transaction.objectStore("playlists");
+
+        const playlist = {
+          name: playlistName,
+          files: [],
+        };
+
+        playlistsStore.add(playlist);
+
+        transaction.oncomplete = function () {
+          resolve("Playlist created successfully!");
+        };
+
+        transaction.onerror = function (event) {
+          reject(event.target.error);
+        };
+      };
+
+      request.onerror = function (event) {
+        reject(event.target.error);
+      };
+    } else {
+      const transaction = db.transaction(["playlists"], "readwrite");
+      const playlistsStore = transaction.objectStore("playlists");
+
+      const playlist = {
+        name: playlistName,
+        files: [],
+      };
+
+      playlistsStore.add(playlist);
+
+      transaction.oncomplete = function () {
+        resolve("Playlist created successfully!");
+      };
+
+      transaction.onerror = function (event) {
+        reject(event.target.error);
+      };
+    }
   });
 }
