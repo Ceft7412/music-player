@@ -12,6 +12,8 @@ export default function Landing() {
     setItemToPlay,
     setModalUpload,
     modalUpload,
+    modalPlaylist,
+    setModalPlaylist,
     backgroundClickedItem,
     setBackgroundClickedItem,
   } = useContext(RootContext);
@@ -22,6 +24,9 @@ export default function Landing() {
     }
     if (backgroundClickedItem) {
       setBackgroundClickedItem("");
+    }
+    if (modalPlaylist) {
+      setModalPlaylist(false);
     }
   };
   return (
@@ -51,9 +56,7 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-              <div className="row__flex_row_item row__flex_row_center">
-                <div className="row__flex_row_center-flex"></div>
-              </div>
+
               <Music />
             </div>
           </div>
