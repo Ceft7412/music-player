@@ -1,10 +1,10 @@
 import { useContext } from "react";
-
 import Footer from "@/components/Footer";
 import AlbumRoundedIcon from "@mui/icons-material/AlbumRounded";
 import ModalUpload from "@/components/ModalUpload";
 import { RootContext } from "@/context/RootContext";
 import Music from "@/components/Music";
+import ModalEdit from "@/components/ModalEdit";
 
 export default function Landing() {
   const {
@@ -16,6 +16,8 @@ export default function Landing() {
     setModalPlaylist,
     backgroundClickedItem,
     setBackgroundClickedItem,
+    modalEditPlaylist,
+    setModalEditPlaylist,
   } = useContext(RootContext);
 
   const handleClose = () => {
@@ -34,10 +36,12 @@ export default function Landing() {
       <div className="music">
         {/*  */}
         {/* column */}
+        <ModalEdit />
         <div className="music__layout">
           {/*  */}
           {/* row */}
           <ModalUpload />
+
           <div className="row content" onClick={handleClose}>
             <div className="row__flex_row">
               <div className="row__flex_row_item row__flex_row_left">
