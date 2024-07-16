@@ -2,7 +2,7 @@ import { parseBuffer } from "music-metadata";
 
 export function openDatabase(version = 2) {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("fileStorage", 2 );
+    const request = indexedDB.open("fileStorage", 2);
 
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
@@ -189,5 +189,40 @@ export async function createPlaylists(playlistName) {
         reject(event.target.error);
       };
     }
+  });
+}
+
+// Update
+
+export async function updatePlaylist(index, newName) {
+  return new Promise(async (resolve, reject) => {
+    const db = await openDatabase(2);
+    const transaction = db.transaction(["playlists"], "readwrite");
+    const playlistsStore = transaction.objectStore("playlists");
+
+    const request = playlistsStore.get(index);
+    console.log(request);
+
+    request.onsuccess = function (event) {
+      const playlist = event.target.result;
+
+      if (playlist) {
+        playlist.name = newName;
+        console.log("Playlist:", playlist.name); // A
+        playlistsStore.put(playlist);
+      }
+    };
+
+    request.onerror = function (event) {
+      reject(event.target.error);
+    };
+
+    transaction.oncomplete = function () {
+      resolve("Playlist name updated successfully!");
+    };
+
+    transaction.onerror = function (event) {
+      reject(event.target.error);
+    };
   });
 }
