@@ -4,10 +4,17 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MusicNoteOutlinedIcon from "@mui/icons-material/MusicNoteOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import { updatePlaylist, fetchPlaylists } from "@/utils/indexdb";
 export default function ModalEdit() {
-  const { modalEditPlaylist, setModalEditPlaylist, playlists, playlistIndex } =
-    useContext(RootContext);
+  const {
+    modalEditPlaylist,
+    setModalEditPlaylist,
+    playlists,
+    setPlaylists,
+    playlistIndex,
+  } = useContext(RootContext);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
+
   const [showDiffIcon, setShowDiffIcon] = useState(false);
   const fileInput = useRef(null);
   const cardRef = useRef(null); // Create a ref
@@ -26,6 +33,23 @@ export default function ModalEdit() {
 
   const handleInputClick = () => {
     fileInput.current.click();
+  };
+
+  const handleNameChange = (event) => {
+    setCurrentPlaylist({ ...currentPlaylist, name: event.target.value });
+  };
+
+  const handleSubmit = async () => {
+    if (currentPlaylist) {
+      try {
+        await updatePlaylist(currentPlaylist.id, currentPlaylist.name);
+        const updatedPlaylists = await fetchPlaylists();
+        setPlaylists(updatedPlaylists);
+        setModalEditPlaylist(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -83,7 +107,11 @@ export default function ModalEdit() {
               <div className="modal-edit-playlist__card-body-item cols-edit">
                 <div className="cols-edit__name">
                   <label>Name</label>
-                  <input type="text" value={currentPlaylist.name} />
+                  <input
+                    type="text"
+                    value={currentPlaylist.name}
+                    onChange={handleNameChange}
+                  />
                 </div>
                 <div className="cols-edit__description">
                   <label>Description</label>
@@ -92,7 +120,9 @@ export default function ModalEdit() {
               </div>
             </div>
             <div className="modal-edit-playlist__card-footer">
-              <span className="card-footer__save">Save</span>
+              <span className="card-footer__save" onClick={handleSubmit}>
+                Save
+              </span>
             </div>
           </div>
         </div>
