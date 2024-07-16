@@ -1,6 +1,6 @@
 .footer {
   position: fixed;
-  bottom: 15px;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 100px;
@@ -10,8 +10,8 @@
   z-index: 2000;
   .footer__flex {
     background-color: rgb(27, 27, 34);
-    width: 70%;
-    border-radius: 7px;
+    width: 100%;
+
     border: 1px solid rgba(51, 51, 51, 0.379);
     height: 100%;
     display: flex;
@@ -23,17 +23,30 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      width: 600px;
+      .footer__flex-rows-icons {
+        display: flex;
+        height: 50px;
+      }
       .footer__progress {
-        width: 500px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 0;
+        .footer__progress-duration {
+          width: 60px;
+          font-size: 14px;
+        }
       }
       .footer__volume {
         position: absolute;
         display: flex;
         align-items: center;
         gap: 10px;
-        width: 170px;
+        width: 120px;
         right: 50px;
-        bottom: 13px;
+        bottom: 30px;
       }
     }
   }
