@@ -4,12 +4,18 @@
   background: rgb(15, 18, 20);
   color: white;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .music__layout {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
+    max-width: 2000px;
     height: 100%;
-    padding-bottom: 70px;
+    padding-bottom: 80px;
     z-index: 999;
     .row {
       height: 100%;
@@ -17,6 +23,7 @@
       .row__flex_row {
         display: flex;
         align-items: center;
+
         height: 100%;
 
         width: 100%;
@@ -26,7 +33,7 @@
           height: 100%;
         }
         .row__flex_row_left {
-          width: 25%;
+          width: 20%;
           margin-left: 10px;
           display: flex;
           flex-direction: column;
@@ -43,8 +50,8 @@
             gap: 20px;
             align-items: center;
             .row__flex_row_left-header {
-              width: 75%;
-              height: 270px;
+              width: 80%;
+              height: 200px;
               margin-top: 25px;
               color: gray;
               display: flex;
@@ -58,33 +65,14 @@
               align-items: center;
               gap: 10px;
               .artist-left {
-                font-weight: lighter; 
+                font-weight: lighter;
               }
             }
           }
         }
 
-        .row__flex_row_center {
-          width: 55%;
-
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          border-radius: 15px;
-          color: white;
-          .row__flex_row_center-flex {
-            height: 97%;
-            width: 100%;
-            align-self: center;
-            padding-bottom: 20px;
-            // background-color: rgba(0, 0, 0, 0.831);
-
-            border-radius: 10px;
-          }
-        }
-
         .row__flex_row_right {
-          width: 25%;
+          width: 76%;
           margin-right: 10px;
 
           display: flex;
@@ -95,7 +83,7 @@
             height: 97%;
             width: 100%;
             align-self: center;
-            padding-bottom: 20px;
+
             // background-color: rgba(0, 0, 0, 0.831);
             border-radius: 7px;
             .music__flex {
@@ -103,7 +91,7 @@
               width: 100%;
               display: flex;
               flex-direction: column;
-
+              padding-bottom: 20px;
               .music__header {
                 height: 7%;
                 display: flex;
@@ -120,9 +108,27 @@
                     display: flex;
                     align-items: center;
                     gap: 5px;
-
+                    overflow-x: auto;
                     cursor: pointer;
 
+                    &::-webkit-scrollbar {
+                      height: 5px;
+                    }
+
+                    &::-webkit-scrollbar-track {
+                      background: #f1f1f1;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                      background: #888;
+                    }
+
+                    &::-webkit-scrollbar-thumb:hover {
+                      background: #555;
+                    }
+                    .music__header__playlist-name {
+                      white-space: nowrap;
+                    }
                     .active {
                       color: orange;
                       cursor: default;
@@ -142,7 +148,22 @@
                       }
                     }
                   }
-                  &.music__upload {
+                  &.music__right-items {
+                    display: flex;
+                    gap: 10px;
+                  }
+                  .music__playlist-add {
+                    display: flex;
+                    background-color: rgb(27, 27, 34);
+                    border: 1px solid rgba(51, 51, 51, 0.379);
+                    border-radius: 7px;
+                    padding: 5px;
+                    &:hover {
+                      background-color: rgba(42, 38, 38, 0.995);
+                    }
+                  }
+                  .music__upload {
+                    display: flex;
                     background-color: rgb(27, 27, 34);
                     border: 1px solid rgba(51, 51, 51, 0.379);
                     border-radius: 7px;
@@ -157,6 +178,7 @@
                 height: 90%;
                 margin-top: 10px;
                 width: 100%;
+
                 .music__body_flex {
                   display: flex;
                   flex-direction: column;
@@ -172,7 +194,7 @@
                   .bodycontent {
                     cursor: default;
                     margin-top: 10px;
-                    overflow-y: auto;
+                    overflow: auto;
                     height: 100%;
                     .bodycontent__flex {
                       display: flex;
