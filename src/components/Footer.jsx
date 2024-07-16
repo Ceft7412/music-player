@@ -1,45 +1,190 @@
-import { useContext } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
+import PauseCircleOutlineRoundedIcon from "@mui/icons-material/PauseCircleOutlineRounded";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import LinearProgress from "@mui/material/LinearProgress";
 import Slider from "@mui/material/Slider";
-import VolumeDown from "@mui/icons-material/VolumeDown";
-import VolumeUp from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+
+// mui styling
+
+import { styled } from "@mui/system";
 
 import { RootContext } from "@/context/RootContext";
+
+const StyledPlayCircleFilledWhiteOutlinedIcon = styled(PlayCircleFilledWhiteOutlinedIcon)(
+  {
+    fontSize: 45,
+    cursor: "pointer",
+    transition: "0.2s",
+    "&:hover": {
+      fontSize: 48,
+    },
+    width: 50,
+  }
+);
+
+const StyledPauseCircleOutlineRoundedIcon = styled(PauseCircleOutlineRoundedIcon)({
+  fontSize: 45,
+  cursor: "pointer",
+  transition: "0.2s",
+  "&:hover": {
+    fontSize: 48,
+  },
+  width: 50,
+});
+const StyledSkipNextIcon = styled(SkipNextIcon)({
+  fontSize: 45,
+  cursor: "pointer",
+  color: "gray",
+  transition: "0.2s",
+  "&:hover": {
+    color: "white",
+  },
+  width: 50,
+});
+
+const StyledSkipPreviousIcon = styled(SkipPreviousIcon)({
+  fontSize: 45,
+  cursor: "pointer",
+  color: "gray",
+  transition: "0.2s",
+  "&:hover": {
+    color: "white",
+  },
+  width: 50,
+});
 export default function Footer() {
+  const audioRef = useRef(null);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [isNoVolume, setNoVolume] = useState(true);
   const {
     setModalUpload,
     modalUpload,
     storedFiles,
     backgroundClickedItem,
     setBackgroundClickedItem,
-    s,
+    itemToPlay,
+    setVolume,
+    volume,
   } = useContext(RootContext);
+
+  console.log(itemToPlay);
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    let seconds = Math.floor(timeInSeconds % 60);
+
+    // If seconds is less than 10, add a leading 0
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+
+    return `${minutes}:${seconds}`;
+  };
+
+  const totalSeconds = minutes * 60 + seconds;
+  useEffect(() => { 
+    setIsPlaying(false);
+  }, [itemToPlay]);
+
+  useEffect(() => {
+    if (Math.floor(currentTime) === totalSeconds) {
+      setIsPlaying(false);
+    }
+  }, [currentTime]);
+  useEffect(() => {
+    if (itemToPlay && audioRef.current) {
+      const blob = new Blob([itemToPlay.content], { type: "audio/mpeg" });
+      const url = URL.createObjectURL(blob);
+      audioRef.current.src = url;
+
+      setMinutes(itemToPlay.duration.minutes);
+      setSeconds(itemToPlay.duration.seconds);
+
+      // Set the ontimeupdate event listener here
+      audioRef.current.ontimeupdate = () => {
+        setCurrentTime(audioRef.current.currentTime);
+      };
+    }
+  }, [itemToPlay]);
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+    }
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    setCurrentTime(newValue);
+    if (audioRef.current) {
+      audioRef.current.currentTime = newValue;
+    }
+  };
+
+  const handleVolumeChange = (event, newValue) => {
+    console.log(newValue);
+    setVolume(newValue);
+    if (audioRef.current) {
+      audioRef.current.volume = newValue / 100;
+    }
+  };
+
+  const handleNoVolume = () => {
+    setNoVolume(!isNoVolume);
+    if (audioRef.current) {
+      if (isNoVolume) {
+        setVolume(0);
+        audioRef.current.volume = 0;
+      } else {
+        setVolume(100);
+        setNoVolume(!isNoVolume);
+        audioRef.current.volume = 100 / 100;
+      }
+    }
+  };
 
   return (
     <>
       <div className="footer">
         <div className="footer__flex">
           <div className="footer__flex-cols">
-            <div className="">
-              <SkipPreviousIcon style={{ fontSize: 50 }} />
-              <PlayCircleFilledWhiteOutlinedIcon style={{ fontSize: 50 }} />
-              <SkipNextIcon style={{ fontSize: 50 }} />
+            <div className="footer__flex-rows-icons">
+              <StyledSkipPreviousIcon />
+
+              <div className="" onClick={togglePlayPause}>
+                {isPlaying ? (
+                  <StyledPauseCircleOutlineRoundedIcon />
+                ) : (
+                  <StyledPlayCircleFilledWhiteOutlinedIcon />
+                )}
+              </div>
+              <StyledSkipNextIcon />
             </div>
             <div className="footer__progress">
+              <span className="footer__progress-duration">{formatTime(currentTime)}</span>
               <Slider
                 color="inherit"
                 aria-label="time-indicator"
-                value={20}
-                onChange={{}}
+                value={currentTime}
+                max={totalSeconds}
+                onChange={handleSliderChange}
                 sx={{
                   height: 4,
                   "& .MuiSlider-thumb": {
                     width: 8,
                     height: 8,
-                    transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
 
                     "&.Mui-active": {
                       width: 8,
@@ -51,17 +196,36 @@ export default function Footer() {
                   },
                 }}
               />
+              <span className="footer__progress-duration">
+                {formatTime(totalSeconds)}
+              </span>
+              <audio
+                ref={audioRef}
+                onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
+              />
             </div>
             <div className="footer__volume">
-              <VolumeDown />
+              <div onClick={handleNoVolume}>
+                {volume === 0 ? <VolumeOffIcon /> : <VolumeUpIcon />}
+              </div>
               <Slider
                 color="inherit"
-                sx={{ height: "15%" }}
+                sx={{
+                  height: "5",
+                  "& .MuiSlider-thumb": {
+                    width: 10,
+                    height: 10,
+
+                    "&.Mui-active": {
+                      width: 8,
+                      height: 8,
+                    },
+                  },
+                }}
                 aria-label="Volume"
-                value={20}
-                onChange={{}}
+                onChange={handleVolumeChange}
+                value={volume}
               />
-              <VolumeUp />
             </div>
           </div>
         </div>
