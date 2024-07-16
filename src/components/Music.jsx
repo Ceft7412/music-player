@@ -1,7 +1,16 @@
 import { RootContext } from "@/context/RootContext";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import { setActiveItem, fetchActiveItem, fetchStoredFiles } from "@/utils/indexdb";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import {
+  setActiveItem,
+  fetchActiveItem,
+  fetchStoredFiles,
+  createPlaylists,
+  fetchPlaylists,
+} from "@/utils/indexdb";
+
+import ModalPlaylist from "@/components/ModalPlaylist";
 import { useContext, useState, useEffect } from "react";
 export default function Music() {
   const {
@@ -11,17 +20,27 @@ export default function Music() {
     setStoredFiles,
     backgroundClickedItem,
     setBackgroundClickedItem,
+    playlists,
+    setPlaylists,
     itemToPlay,
     setItemToPlay,
+    modalPlaylist,
+    setModalPlaylist,
   } = useContext(RootContext);
-  console.log("itemToPlay", itemToPlay);
 
+  const [playlistPosition, setPlaylistsPosition] = useState({ x: 0, y: 0 });
+  const [showModal, setShowModal] = useState(false);
+
+  console.log(showModal);
+  const [clickedPlaylistIndex, setClickedPlaylistIndex] = useState(null);
   useEffect(() => {
     async function loadStoredFiles() {
       try {
         const files = await fetchStoredFiles();
         const active = await fetchActiveItem();
+        const playlistS = await fetchPlaylists();
 
+        setPlaylists(playlistS);
         setStoredFiles(files);
         setItemToPlay(active);
       } catch (error) {
@@ -31,8 +50,6 @@ export default function Music() {
 
     loadStoredFiles();
   }, []);
-
-  const [activeBackground, setActiveBackground] = useState("");
 
   const handleActiveBackground = async (item) => {
     try {
@@ -49,21 +66,55 @@ export default function Music() {
     }
   };
 
+  const handleAddPlaylist = async () => {
+    try {
+      await createPlaylists("My Playlist");
+      const updatedPlaylists = await fetchPlaylists();
+      setPlaylists(updatedPlaylists);
+    } catch (error) {
+      console.error("Error creating new playlist:", error);
+    }
+  };
+
+  const handleRightClick = (index, event) => {
+    event.preventDefault();
+    setPlaylistsPosition({ x: event.clientX, y: event.clientY });
+    setClickedPlaylistIndex(index);
+    setModalPlaylist(true);
+  };
+
   return (
     <div className="row__flex_row_item row__flex_row_right">
       <div className="music-what">
         <div className="music__flex">
           <div className="music__header">
             <div className="music__header_item music__playlist">
-              <span className="active">Default</span>
-              <span>Default</span>
-              <span>Default</span>
+              {playlists &&
+                playlists.map((playlist, index) => (
+                  <span
+                    className="music__header__playlist-name"
+                    key={index}
+                    onContextMenu={(event) => handleRightClick(index, event)}
+                  >
+                    {playlist.name}
+                  </span>
+                ))}
             </div>
-            <div
-              className="music__header_item music__upload"
-              onClick={() => setModalUpload(true)}
-            >
-              <AddRoundedIcon />
+            <div className="music__header_item  music__right-items">
+              <div
+                className="music__playlist-add"
+                onClick={handleAddPlaylist}
+                title="Add Playlist"
+              >
+                <AddRoundedIcon />
+              </div>
+              <div
+                className="music__upload"
+                onClick={() => setModalUpload(true)}
+                title="Upload file"
+              >
+                <FileUploadOutlinedIcon />
+              </div>
             </div>
           </div>
           <div className="music__body">
@@ -116,6 +167,14 @@ export default function Music() {
           </div>
         </div>
       </div>
+
+      {modalPlaylist && (
+        <ModalPlaylist
+          x={playlistPosition.x}
+          y={playlistPosition.y}
+          playlist={playlists[clickedPlaylistIndex]} // Pass relevant playlist data
+        />
+      )}
     </div>
   );
 }
