@@ -2,8 +2,28 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import { RootContext } from "@/context/RootContext";
 import { useContext } from "react";
+
+import { deletePlaylist, fetchPlaylists } from "@/utils/indexdb";
 export default function ModalPlaylist({ x, y, onClose, playlist }) {
-  const { setModalEditPlaylist } = useContext(RootContext);
+  const {
+    setModalEditPlaylist,
+    setModalPlaylist,
+    playlists,
+    setPlaylists,
+    playlistIndex,
+    currentPlaylist,
+  } = useContext(RootContext);
+  console.log(playlists[playlistIndex]);
+  const handleDelete = async () => {
+    try {
+      await deletePlaylist(currentPlaylist.id);
+      const updatedPlaylists = await fetchPlaylists();
+      setPlaylists(updatedPlaylists);
+      setModalPlaylist(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <div
@@ -20,7 +40,7 @@ export default function ModalPlaylist({ x, y, onClose, playlist }) {
           <span className="modal-playlist__item-t">Edit details</span>
         </div>
 
-        <div className="modal-playlist__item">
+        <div className="modal-playlist__item" onClick={handleDelete}>
           <span>
             <RemoveCircleOutlineOutlinedIcon style={{ fontSize: "20px" }} />
           </span>
