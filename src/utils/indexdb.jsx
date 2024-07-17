@@ -2,20 +2,27 @@ import { parseBuffer } from "music-metadata";
 
 export function openDatabase(version = 2) {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("fileStorage", 2);
+    const request = indexedDB.open("fileStorage", version);
 
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
       if (!db.objectStoreNames.contains("files")) {
         db.createObjectStore("files", { keyPath: "id", autoIncrement: true });
       }
+      // Add any other object stores here
+      if (!db.objectStoreNames.contains("playlists")) {
+        db.createObjectStore("playlists", { keyPath: "id", autoIncrement: true });
+      }
     };
 
     request.onsuccess = function (event) {
-      resolve(event.target.result);
+      const db = event.target.result;
+      console.log("Database opened successfully. Object stores:", db.objectStoreNames);
+      resolve(db);
     };
 
     request.onerror = function (event) {
+      console.error("Error opening database:", event.target.error);
       reject(event.target.error);
     };
   });
