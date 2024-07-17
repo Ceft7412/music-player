@@ -245,3 +245,50 @@ export async function deletePlaylist(index) {
     };
   });
 }
+
+export async function deleteMusic(index) {
+  return new Promise(async (resolve, reject) => {
+    const db = await openDatabase(2);
+    const transaction = db.transaction(["files"], "readwrite");
+    const filesStore = transaction.objectStore("files");
+    const request = filesStore.delete(index);
+    request.onsuccess = function () {
+      resolve("Music deleted successfully!");
+    };
+
+    request.onerror = function (event) {
+      reject(event.target.error);
+    };
+  });
+}
+
+export async function addMusicToPlaylist(playlistId, musicId) {
+  return new Promise(async (resolve, reject) => {
+    const db = await openDatabase(2);
+    const transaction = db.transaction(["playlists"], "readwrite");
+    const playlistsStore = transaction.objectStore("playlists");
+
+    const request = playlistsStore.get(playlistId);
+
+    request.onsuccess = function (event) {
+      const playlist = event.target.result;
+
+      if (playlist) {
+        playlist.files.push(musicId);
+        playlistsStore.put(playlist);
+      }
+    };
+
+    request.onerror = function (event) {
+      reject(event.target.error);
+    };
+
+    transaction.oncomplete = function () {
+      resolve("Music added to playlist successfully!");
+    };
+
+    transaction.onerror = function (event) {
+      reject(event.target.error);
+    };
+  });
+}
