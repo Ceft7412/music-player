@@ -41,8 +41,56 @@
       gap: 10px;
       width: 100%;
       height: 180px;
+      position: relative;
+      .modal-photo {
+        position: absolute;
+        z-index: 999;
+        top: 50px;
+        border-radius: 5px;
+        left: 135px;
+        background-color: rgb(27, 27, 34);
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        .modal-photo__item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px;
+          cursor: default;
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+          }
+          .modal-photo__text {
+            color: rgb(201, 201, 201);
+          }
+        }
+      }
       .modal-edit-playlist__card-body-item {
         height: 100%;
+
+        .modal-edit-playlist__image-icons-container {
+          object-fit: cover;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          .modal-edit-playlist__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+          .modal-edit-playlist__more-icon-container {
+            padding: 7px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            &:hover {
+              background-color: rgba(0, 0, 0, 0.1);
+            }
+          }
+        }
         &.image-edit {
           width: 40%;
           display: flex;
