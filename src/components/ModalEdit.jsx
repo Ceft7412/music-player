@@ -53,6 +53,7 @@ export default function ModalEdit() {
   const handleClickOutside = (event) => {
     if (cardRef.current && !cardRef.current.contains(event.target)) {
       setModalEditPlaylist(false);
+      setCurrentPlaylist(playlists[playlistIndex]);
     }
   };
 
@@ -99,6 +100,17 @@ export default function ModalEdit() {
     }
   };
 
+  const handleCloseIconModal = () => {
+    setModalEditPlaylist(false);
+    setCurrentPlaylist(playlists[playlistIndex]);
+  };
+
+  // erase the photo
+
+  const handleRemovePhoto = () => {
+    setCurrentPlaylist({ ...currentPlaylist, image: null });
+  };
+
   return (
     <>
       {modalEditPlaylist && (
@@ -106,10 +118,7 @@ export default function ModalEdit() {
           <div className="modal-edit-playlist__card" ref={cardRef}>
             <div className="modal-edit-playlist__card-head">
               <h1 className="modal-edit-playlist__title">Edit playlist</h1>
-              <div
-                className="modal-edit-playlist__icon"
-                onClick={() => setModalEditPlaylist(false)}
-              >
+              <div className="modal-edit-playlist__icon" onClick={handleCloseIconModal}>
                 <CloseRoundedIcon />
               </div>
             </div>
@@ -122,7 +131,7 @@ export default function ModalEdit() {
                     </div>
                     <span className="modal-photo__text">Change photo</span>
                   </div>
-                  <div className="modal-photo__item">
+                  <div className="modal-photo__item" onClick={handleRemovePhoto}>
                     <div className="modal-photo__icon">
                       <DeleteOutlineRoundedIcon style={{ color: "rgb(201, 201, 201)" }} />
                     </div>
@@ -140,17 +149,16 @@ export default function ModalEdit() {
                   className="modal-edit-playlist__image-icons-container"
                   style={{ position: "relative" }}
                 >
-                  {showDiffIcon && (
-                    <div
-                      className="modal-edit-playlist__more-icon-container"
-                      style={{ position: "absolute", right: "10px", top: "10px" }}
-                      onClick={() => {
-                        setPhotoModal(!photoModal);
-                      }}
-                    >
-                      <MoreHorizOutlinedIcon />
-                    </div>
-                  )}
+                  <div
+                    className="modal-edit-playlist__more-icon-container"
+                    style={{ position: "absolute", right: "10px", top: "10px" }}
+                    onClick={() => {
+                      setPhotoModal(!photoModal);
+                    }}
+                  >
+                    <MoreHorizOutlinedIcon />
+                  </div>
+
                   {currentPlaylist.image ? (
                     <img
                       className="modal-edit-playlist__image"
