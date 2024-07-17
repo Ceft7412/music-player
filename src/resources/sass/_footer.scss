@@ -47,6 +47,17 @@
         width: 120px;
         right: 50px;
         bottom: 30px;
+        @media (max-width: 578px) {
+          width: 50px;
+          right: 0;
+          bottom: 40px;
+          transform: rotate(-90deg);
+        }
+        .volume__icons {
+          @media (max-width: 578px) {
+            display: none;
+          }
+        }
       }
     }
   }
