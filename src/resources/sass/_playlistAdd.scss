@@ -1,0 +1,69 @@
+.playlist-to-add-modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3000;
+  .playlist-to-add-modal__card {
+    background-color: rgb(27, 27, 34);
+    width: 300px;
+    padding: 20px;
+    display: flex;
+    border-radius: 5px;
+    flex-direction: column;
+    gap: 20px;
+    .playlist-to-add-modal__card-head {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .card-head__playlist-icon {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        border-radius: 20px;
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+    .playlist-to-add-modal__card-body {
+      width: 100%;
+      border-radius: 7px;
+      background-color: rgb(10, 10, 12);
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      .card-body__item {
+        padding: 10px;
+        cursor: pointer;
+        &.active {
+          background-color: rgb(43, 43, 52);
+        }
+        &:hover {
+          background-color: rgb(28, 28, 34);
+        }
+        &:active {
+          font-size: 17px;
+        }
+      }
+    }
+
+    .playlist-to-add-modal__card-footer {
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      .card-footer__playlist-save {
+        cursor: pointer;
+        &:hover {
+          color: rgb(197, 197, 197);
+        }
+      }
+    }
+  }
+}
