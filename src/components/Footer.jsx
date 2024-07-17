@@ -61,10 +61,11 @@ export default function Footer() {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const [isNoVolume, setNoVolume] = useState(true);
   const {
+    isPlaying,
+    setIsPlaying,
     setModalUpload,
     modalUpload,
     storedFiles,
@@ -74,8 +75,6 @@ export default function Footer() {
     setVolume,
     volume,
   } = useContext(RootContext);
-
-  console.log(itemToPlay);
 
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
@@ -90,9 +89,6 @@ export default function Footer() {
   };
 
   const totalSeconds = minutes * 60 + seconds;
-  useEffect(() => { 
-    setIsPlaying(false);
-  }, [itemToPlay]);
 
   useEffect(() => {
     if (Math.floor(currentTime) === totalSeconds) {
@@ -112,6 +108,13 @@ export default function Footer() {
       audioRef.current.ontimeupdate = () => {
         setCurrentTime(audioRef.current.currentTime);
       };
+
+      // Play the audio and set isPlaying to true
+
+      if (isPlaying) {
+        audioRef.current.play();
+        setIsPlaying(true);
+      }
     }
   }, [itemToPlay]);
 
@@ -205,7 +208,7 @@ export default function Footer() {
               />
             </div>
             <div className="footer__volume">
-              <div onClick={handleNoVolume}>
+              <div className="volume__icons" onClick={handleNoVolume}>
                 {volume === 0 ? <VolumeOffIcon /> : <VolumeUpIcon />}
               </div>
               <Slider
