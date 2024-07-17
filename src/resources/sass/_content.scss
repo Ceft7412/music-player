@@ -23,12 +23,13 @@
       .row__flex_row {
         display: flex;
         align-items: center;
-
         height: 100%;
-
         width: 100%;
         gap: 10px;
         z-index: 999;
+        @media (max-width: 578px) {
+          flex-direction: column;
+        }
         .row__flex_row_item {
           height: 100%;
         }
@@ -39,7 +40,9 @@
           flex-direction: column;
           justify-content: center;
           border-radius: 15px;
-
+          @media (max-width: 578px) {
+            width: 80%;
+          }
           .row__flex_row_left-flex {
             height: 97%;
             width: 100%;
