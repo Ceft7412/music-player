@@ -194,7 +194,7 @@ export async function createPlaylists(playlistName) {
 
 // Update
 
-export async function updatePlaylist(index, newName) {
+export async function updatePlaylist(index, newName, newDescription, newImage) {
   return new Promise(async (resolve, reject) => {
     const db = await openDatabase(2);
     const transaction = db.transaction(["playlists"], "readwrite");
@@ -208,7 +208,8 @@ export async function updatePlaylist(index, newName) {
 
       if (playlist) {
         playlist.name = newName;
-        console.log("Playlist:", playlist.name); // A
+        playlist.description = newDescription;
+        playlist.image = newImage; // Add this line
         playlistsStore.put(playlist);
       }
     };
@@ -222,6 +223,24 @@ export async function updatePlaylist(index, newName) {
     };
 
     transaction.onerror = function (event) {
+      reject(event.target.error);
+    };
+  });
+}
+
+export async function deletePlaylist(index) {
+  return new Promise(async (resolve, reject) => {
+    const db = await openDatabase(2);
+    const transaction = db.transaction(["playlists"], "readwrite");
+    const playlistsStore = transaction.objectStore("playlists");
+
+    const request = playlistsStore.delete(index);
+
+    request.onsuccess = function () {
+      resolve("Playlist deleted successfully!");
+    };
+
+    request.onerror = function (event) {
       reject(event.target.error);
     };
   });
