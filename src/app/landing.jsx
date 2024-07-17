@@ -5,6 +5,7 @@ import ModalUpload from "@/components/ModalUpload";
 import { RootContext } from "@/context/RootContext";
 import Music from "@/components/Music";
 import ModalEdit from "@/components/ModalEdit";
+import PlayListToAdd from "@/components/PlayListToAdd";
 
 export default function Landing() {
   const {
@@ -18,6 +19,8 @@ export default function Landing() {
     setBackgroundClickedItem,
     modalEditPlaylist,
     setModalEditPlaylist,
+    musicModal,
+    setMusicModal,
   } = useContext(RootContext);
 
   const handleClose = () => {
@@ -30,12 +33,16 @@ export default function Landing() {
     if (modalPlaylist) {
       setModalPlaylist(false);
     }
+    if (musicModal) {
+      setMusicModal(false);
+    }
   };
   return (
     <>
       <div className="music">
         {/*  */}
         {/* column */}
+        <PlayListToAdd />
         <ModalEdit />
         <div className="music__layout">
           {/*  */}
