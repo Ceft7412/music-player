@@ -26,7 +26,6 @@ export function openDatabase(version = 2) {
         db.close();
         openDatabase(version);
       } else {
-        console.log("Database opened successfully. Object stores:", db.objectStoreNames);
         resolve(db);
       }
     };
