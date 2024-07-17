@@ -4,10 +4,9 @@ export const RootContext = createContext();
 export function RootProvider({ children }) {
   const [modalUpload, setModalUpload] = useState(false);
   const [modalPlaylist, setModalPlaylist] = useState(false);
-
+  const [photoModal, setPhotoModal] = useState(false);
   const [modalEditPlaylist, setModalEditPlaylist] = useState(false);
 
-  
   const [storedFiles, setStoredFiles] = useState([]);
   const [itemToPlay, setItemToPlay] = useState(null);
   const [backgroundClickedItem, setBackgroundClickedItem] = useState("");
@@ -20,6 +19,8 @@ export function RootProvider({ children }) {
     return Number(volumeRange) || 0;
   });
 
+  const [currentPlaylist, setCurrentPlaylist] = useState(null);
+
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
       localStorage.setItem("volume", volume);
@@ -29,9 +30,13 @@ export function RootProvider({ children }) {
   return (
     <RootContext.Provider
       value={{
+        photoModal,
+        setPhotoModal,
         modalUpload,
         setModalUpload,
+        setCurrentPlaylist,
         modalEditPlaylist,
+        currentPlaylist,
         setModalEditPlaylist,
         modalPlaylist,
         setModalPlaylist,
