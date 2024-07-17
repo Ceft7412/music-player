@@ -1,0 +1,24 @@
+.modal-music {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(27, 27, 34);
+  border-right: 2px solid orange;
+  border-bottom: 2px solid orange;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  .modal-music__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    width: 200px;
+    &.border-bottom {
+      border-bottom: 1px solid gray;
+    }
+    &:hover {
+      background-color: rgb(51, 51, 63);
+    }
+  }
+}
