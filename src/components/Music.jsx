@@ -11,6 +11,7 @@ import {
 } from "@/utils/indexdb";
 
 import ModalPlaylist from "@/components/ModalPlaylist";
+import MusicModal from "@/components/MusicModal";
 import { useContext, useState, useEffect } from "react";
 export default function Music() {
   const {
@@ -29,13 +30,15 @@ export default function Music() {
     modalPlaylist,
     setModalPlaylist,
     setEditModalPlaylist,
+    setMusicModal,
+    musicModal,
+    setIsPlaying,
   } = useContext(RootContext);
 
   const [playlistPosition, setPlaylistsPosition] = useState({ x: 0, y: 0 });
-  const [showModal, setShowModal] = useState(false);
+  const [musicPosition, setMusicPosition] = useState({ x: 0, y: 0 });
+  const [clickedIndexItem, setClickedIndexItem] = useState(null);
 
-  console.log(showModal);
-  const [clickedPlaylistIndex, setClickedPlaylistIndex] = useState(null);
   useEffect(() => {
     async function loadStoredFiles() {
       try {
@@ -58,9 +61,11 @@ export default function Music() {
     try {
       await setActiveItem(item);
       const active = await fetchActiveItem();
+
+      setIsPlaying(true);
       setItemToPlay(active);
     } catch (e) {
-      console.error("Error setting active item:", error);
+      console.error("Error setting active item:", e);
     }
   };
   const handleClose = () => {
@@ -81,9 +86,23 @@ export default function Music() {
 
   const handleRightClick = (index, event) => {
     event.preventDefault();
+    if (musicModal) {
+      setMusicModal(false);
+    }
     setPlaylistsPosition({ x: event.clientX, y: event.clientY });
     setPlaylistIndex(index);
     setModalPlaylist(true);
+  };
+
+  const handleRightClickItem = (index, event) => {
+    event.preventDefault();
+    if (modalPlaylist) {
+      setModalPlaylist(false);
+    }
+    setClickedIndexItem(index);
+    setMusicPosition({ x: event.clientX, y: event.clientY });
+
+    setMusicModal(true);
   };
 
   return (
@@ -122,31 +141,18 @@ export default function Music() {
           </div>
           <div className="music__body">
             <div className="music__body_flex">
-              <div className="bodyhead">
-                <input type="checkbox" />
-                <div className="bodyhead__icon">
-                  <KeyboardArrowDownRoundedIcon />
-                </div>
-              </div>
+              <div className="bodyhead"></div>
               <div className="bodycontent">
                 <div className="bodycontent__flex">
                   {storedFiles.map((file, index) => (
                     <div
                       className="bodycontent__flex_item"
                       key={index}
-                      style={{
-                        backgroundColor: backgroundClickedItem,
-                      }}
                       onClick={() => setBackgroundClickedItem("rgba(42, 38, 38, 0.995)")}
                       onDoubleClick={() => handleActiveBackground(file)}
-                      onContextMenu={(e) => {
-                        e.preventDefault(); // Prevent the context menu from appearing
-                        // Handle right click here
-                        console.log(`Right clicked on item ${index}`);
-                      }}
+                      onContextMenu={(event) => handleRightClickItem(index, event)}
                     >
                       <div className="music__item">
-                        <input type="checkbox" />
                         <div className="col__inside">
                           <span>
                             {index + 1}. {file.artist} - {file.name}
@@ -170,7 +176,9 @@ export default function Music() {
           </div>
         </div>
       </div>
-
+      {musicModal && (
+        <MusicModal x={musicPosition.x} y={musicPosition.y} index={clickedIndexItem} />
+      )}
       {modalPlaylist && (
         <ModalPlaylist
           x={playlistPosition.x}
