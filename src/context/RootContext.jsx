@@ -6,8 +6,14 @@ export function RootProvider({ children }) {
   const [modalPlaylist, setModalPlaylist] = useState(false);
   const [photoModal, setPhotoModal] = useState(false);
   const [modalEditPlaylist, setModalEditPlaylist] = useState(false);
+  const [musicModal, setMusicModal] = useState(false);
+  const [playListToAddModal, setPlayListToAddModal] = useState(false);
 
+  const [indexToAdd, setIndexToAdd] = useState(null);
+  console.log(indexToAdd);
   const [storedFiles, setStoredFiles] = useState([]);
+
+  const [isPlaying, setIsPlaying] = useState(false);
   const [itemToPlay, setItemToPlay] = useState(null);
   const [backgroundClickedItem, setBackgroundClickedItem] = useState("");
 
@@ -30,6 +36,14 @@ export function RootProvider({ children }) {
   return (
     <RootContext.Provider
       value={{
+        playListToAddModal,
+        setPlayListToAddModal,
+        indexToAdd,
+        setIndexToAdd,
+        isPlaying,
+        setIsPlaying,
+        musicModal,
+        setMusicModal,
         photoModal,
         setPhotoModal,
         modalUpload,
