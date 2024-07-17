@@ -1,12 +1,28 @@
 import { useContext, useRef, useEffect, useState } from "react";
-import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
-import PauseCircleOutlineRoundedIcon from "@mui/icons-material/PauseCircleOutlineRounded";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import LinearProgress from "@mui/material/LinearProgress";
-import Slider from "@mui/material/Slider";
-import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+
+const DynamicSlider = dynamic(() => import("@mui/material/Slider"), { ssr: false });
+import dynamic from "next/dynamic";
+
+const PlayCircleFilledWhiteOutlinedIcon = dynamic(
+  () => import("@mui/icons-material/PlayCircleFilledWhiteOutlined"),
+  { ssr: false }
+);
+const PauseCircleOutlineRoundedIcon = dynamic(
+  () => import("@mui/icons-material/PauseCircleOutlineRounded"),
+  { ssr: false }
+);
+const SkipNextIcon = dynamic(() => import("@mui/icons-material/SkipNext"), {
+  ssr: false,
+});
+const SkipPreviousIcon = dynamic(() => import("@mui/icons-material/SkipPrevious"), {
+  ssr: false,
+});
+const VolumeOffIcon = dynamic(() => import("@mui/icons-material/VolumeOff"), {
+  ssr: false,
+});
+const VolumeUpIcon = dynamic(() => import("@mui/icons-material/VolumeUp"), {
+  ssr: false,
+});
 
 // mui styling
 
@@ -137,7 +153,6 @@ export default function Footer() {
   };
 
   const handleVolumeChange = (event, newValue) => {
-    console.log(newValue);
     setVolume(newValue);
     if (audioRef.current) {
       audioRef.current.volume = newValue / 100;
@@ -177,7 +192,7 @@ export default function Footer() {
             </div>
             <div className="footer__progress">
               <span className="footer__progress-duration">{formatTime(currentTime)}</span>
-              <Slider
+              <DynamicSlider
                 color="inherit"
                 aria-label="time-indicator"
                 value={currentTime}
@@ -211,7 +226,7 @@ export default function Footer() {
               <div className="volume__icons" onClick={handleNoVolume}>
                 {volume === 0 ? <VolumeOffIcon /> : <VolumeUpIcon />}
               </div>
-              <Slider
+              <DynamicSlider
                 color="inherit"
                 sx={{
                   height: "5",

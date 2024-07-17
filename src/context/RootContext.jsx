@@ -10,7 +10,6 @@ export function RootProvider({ children }) {
   const [playListToAddModal, setPlayListToAddModal] = useState(false);
 
   const [indexToAdd, setIndexToAdd] = useState(null);
-  console.log(indexToAdd);
   const [storedFiles, setStoredFiles] = useState([]);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -21,8 +20,11 @@ export function RootProvider({ children }) {
   const [playlistIndex, setPlaylistIndex] = useState(null);
 
   const [volume, setVolume] = useState(() => {
-    const volumeRange = localStorage.getItem("volume");
-    return Number(volumeRange) || 0;
+    if (typeof window !== "undefined" && window.localStorage) {
+      const volumeRange = localStorage.getItem("volume");
+      return Number(volumeRange) || 0;
+    }
+    return 0;
   });
 
   const [currentPlaylist, setCurrentPlaylist] = useState(null);

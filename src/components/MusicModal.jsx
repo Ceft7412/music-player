@@ -18,7 +18,6 @@ export default function MusicModal({ x, y, index }) {
     setIndexToAdd,
   } = useContext(RootContext);
 
-  console.log(storedFiles[index].id);
 
   const [playMusic, setPlayMusic] = useState();
 

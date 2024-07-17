@@ -66,7 +66,7 @@ export default function ModalUpload() {
     e.preventDefault();
     setDragging(false);
     const files = e.dataTransfer.files;
-    console.log(files);
+
     try {
       await storeFiles(files);
       const updatedFiles = await fetchStoredFiles();
@@ -79,7 +79,7 @@ export default function ModalUpload() {
   const handleFileUpload = async (e) => {
     setModalUpload(false);
     const files = e.target.files;
-    console.log(files);
+
     try {
       await storeFiles(files);
 

@@ -27,7 +27,6 @@ export async function storeFiles(files) {
   for (const file of files) {
     const arrayBuffer = await file.arrayBuffer();
     const metadata = await parseBuffer(Buffer.from(arrayBuffer), file.type);
-    console.log("metadata:", metadata);
 
     const codecToFileExtension = {
       "MPEG 1 Layer 3": "MP3",
@@ -54,8 +53,6 @@ export async function storeFiles(files) {
     });
   }
 
-  console.log("files:", processedFiles);
-  console.log("files:", processedFiles.length);
   const db = await openDatabase(2);
   const transaction = db.transaction(["files"], "readwrite");
   const objectStore = transaction.objectStore("files");
@@ -201,7 +198,6 @@ export async function updatePlaylist(index, newName, newDescription, newImage) {
     const playlistsStore = transaction.objectStore("playlists");
 
     const request = playlistsStore.get(index);
-    console.log(request);
 
     request.onsuccess = function (event) {
       const playlist = event.target.result;
