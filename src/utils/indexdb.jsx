@@ -17,8 +17,18 @@ export function openDatabase(version = 2) {
 
     request.onsuccess = function (event) {
       const db = event.target.result;
-      console.log("Database opened successfully. Object stores:", db.objectStoreNames);
-      resolve(db);
+      if (!db.objectStoreNames.contains("files")) {
+        const version = db.version + 1;
+        db.close();
+        openDatabase(version);
+      } else if (!db.objectStoreNames.contains("playlists")) {
+        const version = db.version + 1;
+        db.close();
+        openDatabase(version);
+      } else {
+        console.log("Database opened successfully. Object stores:", db.objectStoreNames);
+        resolve(db);
+      }
     };
 
     request.onerror = function (event) {
