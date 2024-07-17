@@ -13,7 +13,7 @@ export default function ModalPlaylist({ x, y, onClose, playlist }) {
     playlistIndex,
     currentPlaylist,
   } = useContext(RootContext);
-  console.log(playlists[playlistIndex]);
+
   const handleDelete = async () => {
     try {
       await deletePlaylist(currentPlaylist.id);
