@@ -1,8 +1,8 @@
 import { parseBuffer } from "music-metadata";
 
-export function openDatabase(version = 2) {
+export function openDatabase(version = 1) {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("fileStorage", 2);
+    const request = indexedDB.open("fileStorage", 1);
 
     request.onupgradeneeded = function (event) {
       const db = event.target.result;
@@ -53,7 +53,7 @@ export async function storeFiles(files) {
     });
   }
 
-  const db = await openDatabase(2);
+  const db = await openDatabase(1);
   const transaction = db.transaction(["files"], "readwrite");
   const objectStore = transaction.objectStore("files");
 
@@ -73,7 +73,7 @@ export async function storeFiles(files) {
 }
 
 export async function fetchStoredFiles() {
-  const db = await openDatabase(2);
+  const db = await openDatabase(1);
   const transaction = db.transaction(["files"], "readonly");
   const objectStore = transaction.objectStore("files");
   const request = objectStore.getAll();
@@ -97,7 +97,7 @@ export async function fetchActiveItem() {
   const activeItemId = localStorage.getItem("activeItem");
   if (!activeItemId) return null;
 
-  const db = await openDatabase(2);
+  const db = await openDatabase(1);
   const transaction = db.transaction(["files"], "readonly");
   const objectStore = transaction.objectStore("files");
   const request = objectStore.get(Number(activeItemId));
@@ -114,7 +114,7 @@ export async function fetchActiveItem() {
 }
 
 export async function fetchPlaylists() {
-  const db = await openDatabase(2);
+  const db = await openDatabase(1);
   const transaction = db.transaction(["playlists"], "readonly");
   const objectStore = transaction.objectStore("playlists");
   const request = objectStore.getAll();
@@ -132,9 +132,9 @@ export async function fetchPlaylists() {
 
 export async function createPlaylists(playlistName) {
   return new Promise(async (resolve, reject) => {
-    const db = await openDatabase(2);
+    const db = await openDatabase(1);
     if (!db.objectStoreNames.contains("playlists")) {
-      const version = db.version + 1;
+      const version = db.version;
       db.close();
       const request = indexedDB.open("fileStorage", version);
 
@@ -193,7 +193,7 @@ export async function createPlaylists(playlistName) {
 
 export async function updatePlaylist(index, newName, newDescription, newImage) {
   return new Promise(async (resolve, reject) => {
-    const db = await openDatabase(2);
+    const db = await openDatabase(1);
     const transaction = db.transaction(["playlists"], "readwrite");
     const playlistsStore = transaction.objectStore("playlists");
 
@@ -226,7 +226,7 @@ export async function updatePlaylist(index, newName, newDescription, newImage) {
 
 export async function deletePlaylist(index) {
   return new Promise(async (resolve, reject) => {
-    const db = await openDatabase(2);
+    const db = await openDatabase(1);
     const transaction = db.transaction(["playlists"], "readwrite");
     const playlistsStore = transaction.objectStore("playlists");
 
@@ -244,7 +244,7 @@ export async function deletePlaylist(index) {
 
 export async function deleteMusic(index) {
   return new Promise(async (resolve, reject) => {
-    const db = await openDatabase(2);
+    const db = await openDatabase(1);
     const transaction = db.transaction(["files"], "readwrite");
     const filesStore = transaction.objectStore("files");
     const request = filesStore.delete(index);
@@ -260,7 +260,7 @@ export async function deleteMusic(index) {
 
 export async function addMusicToPlaylist(playlistId, musicId) {
   return new Promise(async (resolve, reject) => {
-    const db = await openDatabase(2);
+    const db = await openDatabase(1);
     const transaction = db.transaction(["playlists"], "readwrite");
     const playlistsStore = transaction.objectStore("playlists");
 
